@@ -60,6 +60,13 @@ func (b *S3Browser) serveDirectory(w http.ResponseWriter, r *http.Request, dir D
 	if strings.Contains(acceptHeader, "application/json") {
 		renderFunc = b.renderJSON
 		contentType = "application/json"
+	} else if strings.HasPrefix(r.Header["User-Agent"][0], "Kodi") {
+		renderFunc = func(w io.Writer, dir Directory) error {
+			return b.templateKodi.Execute(w, TemplateArgs{
+				SiteName: b.SiteName,
+				Dir:      dir,
+			})
+		}
 	}
 
 	w.Header().Set("Content-Type", contentType+"; charset=utf-8")

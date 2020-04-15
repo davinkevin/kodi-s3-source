@@ -16,7 +16,7 @@ type Crumb struct {
 	Name string
 }
 
-func parseTemplate() (*template.Template, error) {
+func parseDefaultTemplate() (*template.Template, error) {
 	funcs := template.FuncMap{
 		"Breadcrumbs": breadcrumbs,
 		"PathBase":    path.Base,
@@ -24,6 +24,10 @@ func parseTemplate() (*template.Template, error) {
 		"PathJoin":    path.Join,
 	}
 	return template.New("listing").Funcs(funcs).Parse(defaultTemplate)
+}
+
+func parseKodiTemplate() (*template.Template, error) {
+	return template.New("listing-kodi").Parse(kodiTemplate)
 }
 
 func breadcrumbs(args TemplateArgs) []Crumb {
@@ -45,6 +49,38 @@ func breadcrumbs(args TemplateArgs) []Crumb {
 
 	return crumbs
 }
+
+// Template to use when requested by Kodi
+// See parser source here: https://github.com/xbmc/xbmc/blob/master/xbmc/filesystem/HTTPDirectory.cpp
+const kodiTemplate = `<!DOCTYPE html>
+<html>
+	<body>
+		<table>
+			<thead>
+			<tr>
+				<th><a>Name</a></th><th><a>Last modified</a></th><th><a>Size</a></th>
+			</tr>
+			</thead>
+			<tbody>
+				{{ if ne .Dir.Path "/" }}
+				<tr>
+					<td><a href="..">..</a></td><td align="right">  - </td><td align="right">  - </td>
+				</tr>
+				{{- end}}
+				{{ range $name := .Dir.Folders }}
+				<tr>
+					<td><a href="{{ html $name }}/">{{ html $name }}/</a></td><td align="right">  - </td><td align="right">  - </td>
+				</tr>
+				{{- end }}
+				{{ range $name, $info := .Dir.Files }}
+				<tr>
+					<td><a href="{{ html $name }}">{{ html $name }}</a></td><td align="right">{{ $info.HumanModTime "2006-Jan-02 03:04:05" }}</td><td align="right"> {{ html $info.Bytes }}B</td>
+				</tr>
+				{{- end}}
+			</tbody>
+		</table>
+	</body>
+</html>`
 
 const defaultTemplate = `<!DOCTYPE html>
 <html>

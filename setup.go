@@ -57,6 +57,7 @@ type S3Browser struct {
 
 	s3Cache        S3FsCache
 	template       *template.Template
+	templateKodi   *template.Template
 	refreshTrigger chan struct{}
 
 	log *zap.Logger
@@ -160,8 +161,14 @@ func (b *S3Browser) Provision(ctx caddy.Context) (err error) {
 
 	// Prepare template
 	{
-		b.log.Debug("Parsing template")
-		b.template, err = parseTemplate()
+		b.log.Debug("Parsing default template")
+		b.template, err = parseDefaultTemplate()
+		if err != nil {
+			return err
+		}
+
+		b.log.Debug("Parsing Kodi template")
+		b.templateKodi, err = parseKodiTemplate()
 		if err != nil {
 			return err
 		}

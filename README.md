@@ -4,6 +4,11 @@ This will provide directory listing for an S3 bucket (you are able to use minio,
 
 Note: For performance reasons, the file listing is fetched once every 5 minutes to reduce load on S3. You can force a refresh by sending a POST request to the plugin.
 
+## Kodi Support
+
+When Kodi requests the directory listing, a special HTML template is used that Kodi can parse.
+This allows using a S3 bucket as a HTTP source in Kodi.
+
 ## Building
 
 Use [xcaddy](https://github.com/caddyserver/xcaddy) to build.
