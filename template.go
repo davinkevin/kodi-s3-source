@@ -227,11 +227,6 @@ td .goup {
 	bottom: -1px;
 	left: 0;
 }
-footer {
-	padding: 40px 20px;
-	font-size: 12px;
-	text-align: center;
-}
 @media (max-width: 600px) {
 	.hideable {
 		display: none;
@@ -344,8 +339,5 @@ footer {
 				</table>
 			</div>
 		</main>
-		<footer>
-			Served by S3 Browser via <a rel="noopener noreferrer" href="https://caddyserver.com">Caddy</a>
-		</footer>
 	</body>
 </html>`
