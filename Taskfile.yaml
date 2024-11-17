@@ -14,16 +14,5 @@ tasks:
   run:
     cmd: docker run -it --rm
             -p 80:80
-            -e S3_SITEMAP=s3-to-kodi.127.0.0.1.nip.io
-            -e S3_ENDPOINT=minio.127.0.0.1.nip.io
-            -e S3_REGION=none
-            -e S3_KEY=foo
-            -e S3_SECRET=bar
-            -e S3_SECURE=true
-            -e S3_BUCKET=podcast
-            -e S3_REFRESH=5m
-            -e S3_REFRESH_SECRET=zoo
-            -e S3_DEBUG=true
-            -e S3_SIGNED_URL_REDIRECT=false
-            -e S3_SORT_ALGORITHM=none
+            --env-file local.env
             davinkevin/kodi-s3-source
