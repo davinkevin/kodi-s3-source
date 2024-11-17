@@ -72,7 +72,8 @@ const kodiTemplate = `<!DOCTYPE html>
 					<td><a href="{{ html $name }}/">{{ html $name }}/</a></td><td align="right">  - </td><td align="right">  - </td>
 				</tr>
 				{{- end }}
-				{{ range $name, $info := .Dir.Files }}
+				{{ range $name := .Dir.Filenames }}
+					{{ $info := $.Dir.GetFile $name }}
 				<tr>
 					<td><a href="{{ html $name }}">{{ html $name }}</a></td><td align="right">{{ $info.HumanModTime "2006-Jan-02 03:04:05" }}</td><td align="right"> {{ html $info.Bytes }}B</td>
 				</tr>
