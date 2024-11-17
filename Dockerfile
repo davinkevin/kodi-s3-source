@@ -1,4 +1,8 @@
-# build stage
+FROM alpine:3.20 AS base
+
+RUN apk add --no-cache wget mailcap ca-certificates gettext libintl && \
+    mkdir /etc/caddy
+
 FROM caddy:2.2.1-builder-alpine as builder
 
 RUN apk add --no-cache git gcc musl-dev wget
@@ -13,11 +17,7 @@ RUN \
     cp /usr/bin/caddy /install/caddy
 # last copy command is for backwards compatibility
 
-FROM alpine:3.12
-EXPOSE 80
-
-RUN apk add --no-cache wget mailcap ca-certificates gettext libintl && \
-    mkdir /etc/caddy
+FROM base as prod
 
 ENV S3_ENDPOINT=s3.amazonaws.com \
     S3_PROTO=https \
