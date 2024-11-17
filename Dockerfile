@@ -3,7 +3,7 @@ FROM alpine:3.20 AS base
 RUN apk add --no-cache wget mailcap ca-certificates gettext libintl && \
     mkdir /etc/caddy
 
-FROM caddy:2.2.1-builder-alpine as builder
+FROM caddy:2.5.2-builder-alpine as builder
 
 RUN apk add --no-cache git gcc musl-dev wget
 
