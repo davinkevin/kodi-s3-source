@@ -1,1 +1,3 @@
 Taskfile.yaml
+local.env
+.idea
